@@ -18,51 +18,29 @@ def check_for_change(db, currWalk):
 
   for curFile in db:
     master_dict[curFile] = db[curFile]
-    
+
   for curFile in currWalk:
     master_dict[curFile] = currWalk[curFile]
 
   for curFile in master_dict:
     if (curFile in db and curFile not in currWalk):
+      deleted_file = db[curFile]
+      print(deleted_file.name + " was deleted") 
       #file was deleted
     elif (curFile not in db and curFile in currWalk):
+      added_file = currWalk[curFile]
+      print(added_file.name + " was added")
       #new file was added
     elif (curFile in db and curFile in currWalk):
       #file was either modified or unchanged
-
-
- 
-"""
-select all first time thorugh if empty walk directory
-and insert records. make sure to set is new file to false
-
-dump all files and take hash of the string representing the data
-store in baseline hash make sure to not include isnewfile colunm
-
-
-walk dir again when we want to test for changes
-insert all records found in dir with isnewfile val being true
-dump those files and take hash
-
-run checksum on all data with isnewfile == true and current scan of the directory
-
-if no changes happened do nothing
-
-determine what changes happened 
-
-check for new file
-
-check for permission change
-
-check for new timestamp
-
-check malicious data entry
-
-after changes have been accounted for and output to the screen
-set changed files to 
-"""
-
-
+      new_file = currWalk[curFile]
+      old_file = db[curFile]
+      if new_file.timestamp != old_file.timestamp:
+        print(new_file.name + " was modified at " + new_file.timestamp)
+      if new_file.permissions != old_file.permissions:
+        print(new_file.name + "'s permissions were modified from " + old_file.permissions + " to " + new_file.permissions)
+      if new_file.file_hash != old_file.file_hash:
+        print("File hashes do not match if time stamps were not changed you may have malicious code in your system")
 
 
 """
