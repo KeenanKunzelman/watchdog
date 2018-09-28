@@ -11,40 +11,27 @@ import Database
 
 current_files = dict()
 existing_files = dict()
-new_files = dict()
+master_dict = dict()
 
 
 def check_for_change(db, currWalk):
 
   for curFile in db:
-    if curFile in currWalk:
-      new_files[curFile] = currWalk[curFile]
+    master_dict[curFile] = db[curFile]
 
   for curFile in currWalk:
-    pass
+    master_dict[curFile] = currWalk[curFile]
 
-  if (len(dict1) > len(dict2)):
-    for curFile in dict1:
-      if curFile not in dict2:
-        deleted = dict1[curFile]
-        print(deleted.name + " was deleted")
-  elif len(dict1) < len(dict2):
-    for curFile in dict2:
-      if curFile not in dict1:
-        added = dict2[curFile]
-        print(added.name + " was added")
-  else:
-    for curFile in dict1:
-      oldFile = dict1[curFile]
-      newFile = dict2[curFile]
-      if (oldFile.timestamp != newFile.timestamp):
-        print(newFile.name + " was modified at " + newFile.timestamp)
-      if (oldFile.permissions != newFile.permissions):
-        print(oldFile.name + "'s permissions were changed")
-      if (oldFile.file_hash != newFile.file_hash and oldFile.timestamp == newFile.timestamp):
-        print("SECURITY BREACH " + oldFile.name + " was edited without the operating systems knowledge")
+  for curFile in master_dict:
+    if (curFile in db and curFile not in currWalk):
+      #file was deleted
+    elif (curFile not in db and curFile in currWalk):
+      #new file was added
+    elif (curFile in db and curFile in currWalk):
+      #file was either modified or unchanged
+    
 
-
+ 
 """
 select all first time thorugh if empty walk directory
 and insert records. make sure to set is new file to false
@@ -162,7 +149,7 @@ def main():
   still have to connect to db here and populate records variable
   """
 
-  
+
   for record in records:
     existing_files[record[1]] =aFile(record[1], record[2], record[3], record[5])
   
