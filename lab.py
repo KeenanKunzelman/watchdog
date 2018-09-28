@@ -122,12 +122,17 @@ def main():
   """
   still have to connect to db here and populate records variable
   """
+  conn = Database.create_connection("test2.db")
+  Database.initialize_table(conn)
+  results = Database.select_columns(conn)
+  Database.set_everything_to_false(conn)
+  Database.batch_insert(conn, current_files)
 
 
-  for record in records:
+  for record in results:
     existing_files[record[1]] =aFile(record[1], record[2], record[3], record[5])
   
-  
+  check_for_change(existing_files, current_files)
 
 
   """
