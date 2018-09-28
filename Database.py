@@ -51,7 +51,7 @@ def initialize_table(conn):
 def insert_column(conn, timeofinsert, filename, timestamp, permissions, hashed):
     cursor = conn.cursor()
     cursor.execute("INSERT INTO Log VALUES (?, ?, ?, ?, ?, ?);",(timeofinsert, filename, timestamp, permissions, True, hashed))
-
+    conn.commit()
 
 # Select everything from the Log table where the file was most recently added
 # @parameter: connection object
@@ -73,10 +73,11 @@ def set_everything_to_false(conn):
 def main():
     conn = create_connection("test.db")
     initialize_table(conn)
-    insert_column(conn, "1:08", "filename.txt", "3:45", "777", "gaurav")
-
+    # insert_column(conn, "1:29", "filename.txt", "3:45", "777", "gaurav")
+    # insert_column(conn,"1:49", "filename.txt", "3:45", "777", "gaurav")
     results = select_columns(conn)
     print(results)
+    conn.close()
 
 if __name__ == '__main__':
     main()
