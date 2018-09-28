@@ -6,7 +6,7 @@ import hashlib
 initialize command line args
 """
 parser = argparse.ArgumentParser(description='Monitor files in directory for changes')
-parser.add_argument('path', help='Provide a absolute path to directory to be monitored')
+parser.add_argument('path', help='Provide a absolute path to directory to be monitored \n ex. root/Destop/hello')
 parser.add_argument('interval', help='Provide an interval in seconds to poll files')
 args = parser.parse_args()
 path = args.path
@@ -55,16 +55,23 @@ def checksum(hash1, hash2):
 initializes the dictionaries 
 """
 def initialize_files(path, init):
-  for root, dirs, files in os.walk(path, topdown=False):
-      for name in files:
-        file_hash = hashFile(path + '/' + name)
-        permissions = os.stat(path + '/' + name)[stat.ST_MODE]
-        timestamp = time.ctime(os.path.getmtime(path + '/' + name))
-        if init == True:
-          current_files[name] = aFile(name, timestamp, permissions, file_hash)
-        else:
-          new_files[name] = aFile(name, timestamp, permissions, file_hash)
-        
+  for dirName, subdirList, fileList in os.walk(path):
+    for name in fileList:
+     
+      print(name)
+      file_hash = hashFile(dirName + '/' + name)
+      permissions = os.stat(dirName + '/' + name)[stat.ST_MODE]
+      timestamp = time.ctime(os.path.getmtime(dirName + '/' + name))
+      if init == True:
+        current_files[dirName + '/' + name] = aFile(dirName + '/' + name, timestamp, permissions, file_hash)
+      else:
+        new_files[dirName + '/' + name] = aFile(dirName + '/' + name, timestamp, permissions, file_hash)
+
+
+  # for root, dirs, files in os.walk(path, topdown=True):
+  #     for name in files:
+  #             for name in dirs:
+  #       print(name)
 
         
 
@@ -87,7 +94,7 @@ def hashFile(path):
 
 def main():
 
-  
+ 
   initialize_files(path, True)
 
   for files in current_files:
@@ -101,11 +108,7 @@ def main():
  
     
 
-  while True:
-    time.sleep(int(args.interval))
-    for root, dirs, files in os.walk(path, topdown=False):
-      for name in files:
-        print(root + "/" + name)
+
       
 
 
