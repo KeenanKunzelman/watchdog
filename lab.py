@@ -1,6 +1,53 @@
 import os, sys, stat, time
 import argparse
 import hashlib
+import sqlite3
+
+# def does_db_exist():
+#   if os.path.isfile(watchdog.db):
+#     pass 
+#   else:
+
+
+
+
+
+def check_for_change():
+  for name in 
+
+
+"""
+select all first time thorugh if empty walk directory
+and insert records. make sure to set is new file to false
+
+dump all files and take hash of the string representing the data
+store in baseline hash make sure to not include isnewfile colunm
+
+
+walk dir again when we want to test for changes
+insert all records found in dir with isnewfile val being true
+dump those files and take hash
+
+run checksum on all data with isnewfile == true and current scan of the directory
+
+if no changes happened do nothing
+
+determine what changes happened 
+
+check for new file
+
+check for permission change
+
+check for new timestamp
+
+check malicious data entry
+
+after changes have been accounted for and output to the screen
+set changed files to 
+"""
+
+
+
 
 """
 initialize command line args
@@ -22,7 +69,7 @@ md5 = hashlib.md5()
 create two dictionaries that will be used to check for file changes
 """
 current_files = dict()
-new_files = dict()
+
 
 """
 class that will be used to creat aFile objects as the values for
@@ -54,30 +101,18 @@ def checksum(hash1, hash2):
 """
 initializes the dictionaries 
 """
-def initialize_files(path, init):
+def initialize_files(path):
   for dirName, subdirList, fileList in os.walk(path):
     for name in fileList:
-     
-      print(name)
       file_hash = hashFile(dirName + '/' + name)
       permissions = os.stat(dirName + '/' + name)[stat.ST_MODE]
       timestamp = time.ctime(os.path.getmtime(dirName + '/' + name))
-      if init == True:
-        current_files[dirName + '/' + name] = aFile(dirName + '/' + name, timestamp, permissions, file_hash)
-      else:
-        new_files[dirName + '/' + name] = aFile(dirName + '/' + name, timestamp, permissions, file_hash)
+     
+      current_files[dirName + '/' + name] = aFile(dirName + '/' + name, timestamp, permissions, file_hash)
+      
 
 
-  # for root, dirs, files in os.walk(path, topdown=True):
-  #     for name in files:
-  #             for name in dirs:
-  #       print(name)
-
-        
-
-
-def check_changes():
-  pass
+ 
 
 """
 creates md5 file hash
@@ -95,13 +130,14 @@ def hashFile(path):
 def main():
 
  
-  initialize_files(path, True)
+  initialize_files(path)
 
   for files in current_files:
     curFile = current_files[files]
-
+    
     print("%s last modified:%s permissions:%s filehash:%s" % (curFile.name, curFile.timestamp , str(curFile.permissions) , str(curFile.file_hash)))
 
+    
   
       
       
