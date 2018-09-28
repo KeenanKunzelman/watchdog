@@ -4,10 +4,6 @@ import hashlib
 import sqlite3
 import Database
 
-# def does_db_exist():
-#   if os.path.isfile(watchdog.db):
-#     pass 
-#   else:
 
 current_files = dict()
 existing_files = dict()
