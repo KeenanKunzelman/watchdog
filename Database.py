@@ -9,7 +9,6 @@ import time
 def create_connection(db_file):
     try:
         conn = sqlite3.connect(db_file)
-        print(sqlite3.version)
         return conn
     except Error as e:
         print(e)
@@ -38,7 +37,6 @@ def initialize_table(conn):
                                         isNewFile boolean,
                                         hash varchar default false
                                     ); """
-
     # create a database connection
     if conn is not None:
         # create projects table
@@ -52,10 +50,10 @@ def initialize_table(conn):
 # @parameter: 1 - connection object, 2 - time of insertion in database, 3 - name of file,
 #             4 - time stamp when file was last modified, 5 - permissions of file, 6 - hash value
 # @return: no values
-def insert_column(conn, timeofinsert, filename, timestamp, permissions, hashed):
+def insert_column(conn, time_of_insert, filename, timestamp, permissions, hashed):
     cursor = conn.cursor()
     cursor.execute("INSERT INTO Log VALUES (?, ?, ?, ?, ?, ?);",
-                   (timeofinsert, filename, timestamp, permissions, True, hashed))
+                   (time_of_insert, filename, timestamp, permissions, True, hashed))
     conn.commit()
 
 
@@ -77,6 +75,10 @@ def set_everything_to_false(conn):
     cursor.execute("UPDATE Log SET isNewFile = 0")
 
 
+# Insert a batch of data by passing a list of file objects as a parameter to the function. It iterates through the
+# list and inserts each record in the database
+# @parameter: 1 - connection object, 2 - list of file objects which has data like name, timestamp etc
+# @return: no value
 def batch_insert(conn, current_files):
     for files in current_files:
         cur_file = current_files[files]
@@ -86,6 +88,16 @@ def batch_insert(conn, current_files):
         permissions = str(cur_file.permissions)
         file_hash = str(cur_file.file_hash)
         insert_column(conn, current_time, file_name, time_stamp, permissions, file_hash)
+
+
+# This function queries the whole table and fetches all the historic data about the files
+# @parameter: connection object
+# @return: all results
+def get_historic_data(conn):
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM Log;")
+    results = cursor.fetchall()
+    return results
 
 
 def main():
