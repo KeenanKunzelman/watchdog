@@ -2,18 +2,47 @@ import os, sys, stat, time
 import argparse
 import hashlib
 import sqlite3
+import Database
 
 # def does_db_exist():
 #   if os.path.isfile(watchdog.db):
 #     pass 
 #   else:
 
+current_files = dict()
+existing_files = dict()
+new_files = dict()
 
 
+def check_for_change(db, currWalk):
 
+  for curFile in db:
+    if curFile in currWalk:
+      new_files[curFile] = currWalk[curFile]
 
-def check_for_change():
-  for name in 
+  for curFile in currWalk:
+    pass
+
+  if (len(dict1) > len(dict2)):
+    for curFile in dict1:
+      if curFile not in dict2:
+        deleted = dict1[curFile]
+        print(deleted.name + " was deleted")
+  elif len(dict1) < len(dict2):
+    for curFile in dict2:
+      if curFile not in dict1:
+        added = dict2[curFile]
+        print(added.name + " was added")
+  else:
+    for curFile in dict1:
+      oldFile = dict1[curFile]
+      newFile = dict2[curFile]
+      if (oldFile.timestamp != newFile.timestamp):
+        print(newFile.name + " was modified at " + newFile.timestamp)
+      if (oldFile.permissions != newFile.permissions):
+        print(oldFile.name + "'s permissions were changed")
+      if (oldFile.file_hash != newFile.file_hash and oldFile.timestamp == newFile.timestamp):
+        print("SECURITY BREACH " + oldFile.name + " was edited without the operating systems knowledge")
 
 
 """
@@ -68,7 +97,6 @@ md5 = hashlib.md5()
 """
 create two dictionaries that will be used to check for file changes
 """
-current_files = dict()
 
 
 """
@@ -111,7 +139,6 @@ def initialize_files(path):
       current_files[dirName + '/' + name] = aFile(dirName + '/' + name, timestamp, permissions, file_hash)
       
 
-
  
 
 """
@@ -131,7 +158,20 @@ def main():
 
  
   initialize_files(path)
+  """
+  still have to connect to db here and populate records variable
+  """
 
+  
+  for record in records:
+    existing_files[record[1]] =aFile(record[1], record[2], record[3], record[5])
+  
+  
+
+
+  """
+  this just for testing
+  """
   for files in current_files:
     curFile = current_files[files]
     
