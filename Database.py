@@ -35,7 +35,7 @@ def initialize_table(conn):
                                         fileName varchar(128),
                                         timestamp varchar(128),
                                         permissions varchar(128),
-                                        isNewFile boolean varchar(16),
+                                        isNewFile boolean,
                                         hash varchar default false
                                     ); """
 
@@ -74,7 +74,7 @@ def select_columns(conn):
 # @return: no values
 def set_everything_to_false(conn):
     cursor = conn.cursor()
-    cursor.execute("UPDATE TABLE SET isNewFile = False")
+    cursor.execute("UPDATE Log SET isNewFile = 0")
 
 
 def batch_insert(conn, current_files):
@@ -91,6 +91,7 @@ def batch_insert(conn, current_files):
 def main():
     conn = create_connection("test.db")
     initialize_table(conn)
+
     # insert_column(conn, "1:29", "filename.txt", "3:45", "777", "gaurav")
     # insert_column(conn,"1:49", "filename.txt", "3:45", "777", "gaurav")
     results = select_columns(conn)
