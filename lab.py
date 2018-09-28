@@ -18,7 +18,7 @@ def check_for_change(db, currWalk):
 
   for curFile in db:
     master_dict[curFile] = db[curFile]
-
+    
   for curFile in currWalk:
     master_dict[curFile] = currWalk[curFile]
 
@@ -29,7 +29,7 @@ def check_for_change(db, currWalk):
       #new file was added
     elif (curFile in db and curFile in currWalk):
       #file was either modified or unchanged
-    
+
 
  
 """
