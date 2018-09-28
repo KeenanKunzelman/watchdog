@@ -29,12 +29,14 @@ def check_for_change(db, currWalk):
       #new file was added
     elif (curFile in db and curFile in currWalk):
       #file was either modified or unchanged
+    
       new_file = currWalk[curFile]
       old_file = db[curFile]
+      print(str(old_file.permissions) + " " + str(new_file.permissions))
       if new_file.timestamp != old_file.timestamp:
-        print(new_file.name + " was modified at " + new_file.timestamp)
-      if new_file.permissions != old_file.permissions:
-        print(new_file.name + "'s permissions were modified from " + old_file.permissions + " to " + new_file.permissions)
+        print(new_file.name + " was modified at " + new_file.timestamp )
+      if str(new_file.permissions) != str(old_file.permissions):
+        print(new_file.name + "'s permissions were modified from " + str(old_file.permissions) + " to " + str(new_file.permissions) + "\n\n")
       if new_file.file_hash != old_file.file_hash:
         print("File hashes do not match if time stamps were not changed you may have malicious code in your system")
 
@@ -138,10 +140,10 @@ def main():
   """
   this just for testing
   """
-  for files in current_files:
-    curFile = current_files[files]
+  # for files in current_files:
+  #   curFile = current_files[files]
     
-    print("%s last modified:%s permissions:%s filehash:%s" % (curFile.name, curFile.timestamp , str(curFile.permissions) , str(curFile.file_hash)))
+  #   print("%s last modified:%s permissions:%s filehash:%s" % (curFile.name, curFile.timestamp , str(curFile.permissions) , str(curFile.file_hash)))
 
     
   
