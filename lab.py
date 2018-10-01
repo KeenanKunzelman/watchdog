@@ -46,7 +46,7 @@ def check_for_change(db, currWalk):
   for curFile in master_dict:
     if (curFile in db and curFile not in currWalk):
       deleted_file = db[curFile]
-      print(deleted_file.name + " was deleted") 
+      print(deleted_file.name + " was deleted")
       #file was deleted
     elif (curFile not in db and curFile in currWalk):
       added_file = currWalk[curFile]
@@ -73,9 +73,9 @@ def initialize_files(path):
       file_hash = hashFile(dirName + '/' + name)
       permissions = os.stat(dirName + '/' + name)[stat.ST_MODE]
       timestamp = time.ctime(os.path.getmtime(dirName + '/' + name))
-     
+
       current_files[dirName + '/' + name] = aFile(dirName + '/' + name, timestamp, permissions, file_hash)
-      
+
 
 """
 creates md5 file hash
@@ -103,6 +103,11 @@ def main():
     *add function that dumps historic log here*
     *******************************************
     """
+    conn = Database.create_connection("test2.db")
+    results = Database.get_historic_data(conn)
+    print(len(results))
+    for i in range(len(results)):
+      print(results[i])
     exit()
 
 
@@ -114,7 +119,7 @@ def main():
   Database.set_everything_to_false(conn)
   Database.batch_insert(conn, current_files)
 
-    
+
 
 
   for record in results:

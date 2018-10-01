@@ -97,17 +97,20 @@ def get_historic_data(conn):
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM Log;")
     results = cursor.fetchall()
+    # print(results[0])
     return results
 
 
 def main():
-    conn = create_connection("test.db")
+    conn = create_connection("test2.db")
     initialize_table(conn)
 
     # insert_column(conn, "1:29", "filename.txt", "3:45", "777", "gaurav")
     # insert_column(conn,"1:49", "filename.txt", "3:45", "777", "gaurav")
-    results = select_columns(conn)
-    print(results)
+
+    # results = select_columns(conn)
+    # print(results)
+
     conn.close()
 
 
