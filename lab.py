@@ -105,7 +105,8 @@ def main():
     """
     conn = Database.create_connection("test2.db")
     results = Database.get_historic_data(conn)
-    print(len(results))
+    print("Number of files in db " + str(len(results)))
+    print("Unique timestamp \t Name of File \t\t\t Last Modified \t Permissions \t New File? \t FIle Hash")
     for i in range(len(results)):
       print(results[i])
     exit()
