@@ -80,6 +80,10 @@ def set_everything_to_false(conn):
 # @parameter: 1 - connection object, 2 - list of file objects which has data like name, timestamp etc
 # @return: no value
 def batch_insert(conn, current_files):
+    # if len(current_files) == 0:
+    #     set_everything_to_false(conn)
+    #     conn.commit()
+    # else:
     for files in current_files:
         cur_file = current_files[files]
         current_time = time.time()
